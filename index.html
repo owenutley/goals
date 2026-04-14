@@ -34,7 +34,7 @@
             color: var(--text-main);
             display: flex;
             justify-content: center;
-            padding: 20px;
+            padding: clamp(12px, 3vw, 20px);
             min-height: 100vh;
         }
 
@@ -44,42 +44,115 @@
             max-width: 550px;
             border-radius: 20px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-            padding: 30px;
+            padding: clamp(20px, 4vw, 30px);
             display: flex;
             flex-direction: column;
-            gap: 30px;
+            gap: clamp(15px, 3vw, 20px);
+        }
+
+        /* Tabs Navigation */
+        .tabs-nav {
+            display: flex;
+            gap: clamp(10px, 2vw, 20px);
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 2px;
+            margin-bottom: clamp(5px, 1vw, 10px);
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: clamp(14px, 2.5vw, 18px);
+            font-weight: 600;
+            cursor: pointer;
+            padding: clamp(8px, 1.5vw, 10px) clamp(2px, 0.5vw, 4px);
+            transition: all 0.2s;
+            position: relative;
+            flex: 1;
+        }
+
+        .tab-btn:hover {
+            color: var(--text-main);
+        }
+
+        .tab-btn.active {
+            color: var(--accent);
+        }
+
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--accent);
+            border-radius: 4px 4px 0 0;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Dashboard Layout */
+        .dashboard-layout {
+            display: flex;
+            flex-direction: column;
+            gap: clamp(20px, 4vw, 30px);
         }
 
         .dashboard-sidebar {
             display: flex;
             flex-direction: column;
-            gap: 25px;
+            gap: clamp(15px, 3vw, 25px);
         }
 
         .dashboard-main {
             display: flex;
             flex-direction: column;
-            gap: 30px;
+            gap: clamp(20px, 4vw, 30px);
+        }
+
+        /* Settings Layout */
+        .settings-layout {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            max-width: 600px;
+            margin: 0 auto;
+            width: 100%;
         }
 
         .header-section {
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: clamp(10px, 2vw, 15px);
         }
 
         h1 {
             color: var(--primary);
-            font-size: 28px;
+            font-size: clamp(20px, 4vw, 28px);
             text-align: left;
             letter-spacing: -0.5px;
+            display: none; /* Hidden on mobile, shown on desktop */
         }
 
         .progress-container {
             width: 100%;
             background-color: var(--border);
             border-radius: 10px;
-            height: 10px;
+            height: clamp(8px, 1.5vw, 10px);
             overflow: hidden;
             position: relative;
         }
@@ -94,9 +167,9 @@
 
         .progress-text {
             text-align: right;
-            font-size: 13px;
+            font-size: clamp(11px, 2vw, 13px);
             color: var(--text-muted);
-            margin-top: -8px;
+            margin-top: clamp(-6px, -1vw, -8px);
             font-weight: 600;
         }
 
@@ -104,18 +177,18 @@
         .view-controls {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: clamp(6px, 1.5vw, 10px);
             background: var(--bg-color);
-            padding: 8px;
+            padding: clamp(6px, 1.5vw, 8px);
             border-radius: 12px;
             border: 1px solid var(--border);
         }
 
         .view-controls span {
-            font-size: 13px;
+            font-size: clamp(11px, 2vw, 13px);
             color: var(--text-muted);
             font-weight: 600;
-            padding-left: 8px;
+            padding-left: clamp(6px, 1vw, 8px);
         }
 
         .view-btn {
@@ -123,9 +196,9 @@
             background: transparent;
             color: var(--text-muted);
             border: none;
-            padding: 8px 0;
+            padding: clamp(6px, 1vw, 8px) 0;
             border-radius: 8px;
-            font-size: 13px;
+            font-size: clamp(11px, 2vw, 13px);
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
@@ -137,22 +210,25 @@
             box-shadow: 0 2px 8px rgba(0,0,0,0.2);
         }
 
-        /* Manager Styles */
+        /* Manager Styles (Now in Settings Tab) */
         .manager-block {
             background: rgba(15, 23, 42, 0.5);
-            padding: 15px;
-            border-radius: 12px;
+            padding: 20px;
+            border-radius: 16px;
             border: 1px solid var(--border);
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 15px;
         }
 
         .manager-block h3 {
-            font-size: 13px;
-            color: var(--text-muted);
+            font-size: 14px;
+            color: var(--primary);
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 10px;
+            margin-bottom: 5px;
         }
 
         .pills-container {
@@ -163,12 +239,12 @@
 
         .pill {
             color: var(--text-main);
-            font-size: 12px;
-            padding: 4px 10px;
+            font-size: 13px;
+            padding: 6px 12px;
             border-radius: 12px;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
             border: 1px solid transparent;
             font-weight: 600;
         }
@@ -178,6 +254,7 @@
             color: var(--text-main);
             opacity: 0.5;
             font-weight: bold;
+            font-size: 16px;
         }
 
         .pill span:hover {
@@ -189,17 +266,17 @@
         .controls {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: clamp(10px, 2vw, 12px);
         }
 
         input[type="text"], input[type="date"], select {
             width: 100%;
-            padding: 14px 16px;
+            padding: clamp(12px, 2.5vw, 14px) clamp(14px, 3vw, 16px);
             background-color: var(--bg-color);
             border: 2px solid var(--border);
             color: var(--text-main);
             border-radius: 12px;
-            font-size: 15px;
+            font-size: clamp(14px, 2.5vw, 15px);
             outline: none;
             transition: all 0.2s;
             color-scheme: dark; 
@@ -213,19 +290,20 @@
         input[type="color"] {
             -webkit-appearance: none;
             border: none;
-            width: 45px;
-            height: 45px;
+            width: 50px;
+            height: 50px;
             border-radius: 12px;
             cursor: pointer;
             background: none;
             padding: 0;
+            flex-shrink: 0;
         }
         input[type="color"]::-webkit-color-swatch-wrapper { padding: 0; }
         input[type="color"]::-webkit-color-swatch { border: 2px solid var(--border); border-radius: 10px; }
 
         .input-row {
             display: flex;
-            gap: 10px;
+            gap: clamp(8px, 2vw, 10px);
             align-items: center;
         }
 
@@ -233,9 +311,9 @@
             background-color: var(--accent);
             color: white;
             border: none;
-            padding: 14px;
+            padding: clamp(12px, 2.5vw, 14px);
             border-radius: 12px;
-            font-size: 16px;
+            font-size: clamp(14px, 2.5vw, 16px);
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
@@ -296,8 +374,8 @@
             padding: 16px;
             border-radius: 12px;
             transition: all 0.2s;
-            border: 2px solid var(--border); /* Default fallback */
-            background-color: var(--bg-color); /* Default fallback */
+            border: 2px solid var(--border);
+            background-color: var(--bg-color);
         }
 
         .goal-item:hover {
@@ -432,14 +510,16 @@
             body { padding: 40px; align-items: flex-start; }
             .app-container {
                 max-width: 1000px; 
-                flex-direction: row; 
+                padding: 40px;
+            }
+            h1 { display: block; }
+            .dashboard-layout {
+                flex-direction: row;
                 align-items: flex-start;
                 gap: 50px;
-                padding: 40px;
             }
             .dashboard-sidebar { flex: 0 0 340px; position: sticky; top: 40px; }
             .dashboard-main { flex: 1; min-width: 0; }
-            h1 { font-size: 32px; }
         }
     </style>
 </head>
@@ -447,56 +527,71 @@
 
     <div class="app-container">
         
-        <div class="dashboard-sidebar">
-            <div class="header-section">
-                <h1>Dashboard</h1>
-                <div class="progress-container">
-                    <div class="progress-bar" id="progressBar"></div>
-                </div>
-                <div class="progress-text" id="progressText">0% Completed</div>
-            </div>
+        <div class="tabs-nav">
+            <button class="tab-btn active" onclick="switchTab(event, 'dashboardTab')">Dashboard</button>
+            <button class="tab-btn" onclick="switchTab(event, 'settingsTab')">Settings</button>
+        </div>
 
-            <div class="view-controls">
-                <span>Group By:</span>
-                <button class="view-btn active" id="btnGroupTime" onclick="setGrouping('timeframe')">Timeframe</button>
-                <button class="view-btn" id="btnGroupCat" onclick="setGrouping('category')">Category</button>
-            </div>
+        <div id="dashboardTab" class="tab-content active">
+            <div class="dashboard-layout">
+                <div class="dashboard-sidebar">
+                    <div class="header-section">
+                        <h1>Dashboard</h1>
+                        <div class="progress-container">
+                            <div class="progress-bar" id="progressBar"></div>
+                        </div>
+                        <div class="progress-text" id="progressText">0% Completed</div>
+                    </div>
 
-            <div class="manager-block">
-                <h3>Manage Timeframes (Border Color)</h3>
-                <div class="input-row">
-                    <input type="text" id="newTfInput" placeholder="e.g. Q3, Someday..." style="padding: 10px; font-size: 14px;">
-                    <input type="color" id="newTfColor" value="#3b82f6">
-                    <button class="btn small" onclick="addTimeframe()">Add</button>
+                    <div class="view-controls">
+                        <span>Group By:</span>
+                        <button class="view-btn active" id="btnGroupTime" onclick="setGrouping('timeframe')">Timeframe</button>
+                        <button class="view-btn" id="btnGroupCat" onclick="setGrouping('category')">Category</button>
+                    </div>
+                    
+                    <div class="controls">
+                        <input type="text" id="goalInput" placeholder="Define your next objective...">
+                        <div class="input-row">
+                            <input type="date" id="goalDate" title="Target Completion Date">
+                        </div>
+                        <div class="input-row">
+                            <select id="timeframeSelect"></select>
+                            <select id="categorySelect"></select>
+                        </div>
+                        <button class="btn" onclick="addGoal()">Add Target</button>
+                    </div>
                 </div>
-                <div id="tfPills" class="pills-container"></div>
-            </div>
 
-            <div class="manager-block">
-                <h3>Manage Categories (Background Color)</h3>
-                <div class="input-row">
-                    <input type="text" id="newCatInput" placeholder="e.g. Finance, Health..." style="padding: 10px; font-size: 14px;">
-                    <input type="color" id="newCatColor" value="#10b981">
-                    <button class="btn small" onclick="addCategory()">Add</button>
-                </div>
-                <div id="catPills" class="pills-container"></div>
-            </div>
-            
-            <div class="controls">
-                <input type="text" id="goalInput" placeholder="Define your next objective...">
-                <div class="input-row">
-                    <input type="date" id="goalDate" title="Target Completion Date">
-                </div>
-                <div class="input-row">
-                    <select id="timeframeSelect"></select>
-                    <select id="categorySelect"></select>
-                </div>
-                <button class="btn" onclick="addGoal()">Add Target</button>
+                <div class="dashboard-main" id="mainDashboard">
+                    </div>
             </div>
         </div>
 
-        <div class="dashboard-main" id="mainDashboard">
+        <div id="settingsTab" class="tab-content">
+            <div class="settings-layout">
+                <div class="manager-block">
+                    <h3>Manage Timeframes</h3>
+                    <p style="font-size: 13px; color: var(--text-muted); margin-top: -10px;">Timeframes dictate the <strong>border color</strong> of your targets.</p>
+                    <div class="input-row">
+                        <input type="text" id="newTfInput" placeholder="e.g. Q3, Someday...">
+                        <input type="color" id="newTfColor" value="#3b82f6" title="Choose Border Color">
+                        <button class="btn small" onclick="addTimeframe()">Add</button>
+                    </div>
+                    <div id="tfPills" class="pills-container"></div>
+                </div>
+
+                <div class="manager-block">
+                    <h3>Manage Categories</h3>
+                    <p style="font-size: 13px; color: var(--text-muted); margin-top: -10px;">Categories dictate the <strong>background color</strong> of your targets.</p>
+                    <div class="input-row">
+                        <input type="text" id="newCatInput" placeholder="e.g. Finance, Health...">
+                        <input type="color" id="newCatColor" value="#10b981" title="Choose Background Color">
+                        <button class="btn small" onclick="addCategory()">Add</button>
+                    </div>
+                    <div id="catPills" class="pills-container"></div>
+                </div>
             </div>
+        </div>
 
     </div>
 
@@ -507,9 +602,19 @@
         let timeframes = [];
         let currentGrouping = 'timeframe'; // 'timeframe' or 'category'
 
+        // Tab Switching Logic
+        function switchTab(event, tabId) {
+            // Remove active class from all buttons and tabs
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            
+            // Add active class to clicked button and target tab
+            event.currentTarget.classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+        }
+
         // Helper function to convert Hex color to RGBA for smooth backgrounds
         function hexToRgba(hex, alpha) {
-            // Strip the hash if present
             hex = hex.replace(/^#/, '');
             if (hex.length === 3) {
                 hex = hex[0]+hex[0]+hex[1]+hex[1]+hex[2]+hex[2];
@@ -521,7 +626,6 @@
         }
 
         function initApp() {
-            // Load custom settings
             const savedCats = localStorage.getItem('myCategoriesObj');
             const savedTfs = localStorage.getItem('myTimeframesObj');
             const savedGroup = localStorage.getItem('myGrouping');
@@ -544,18 +648,9 @@
                 ];
             }
 
-            // Load goals and migrate legacy string data to objects if necessary
             const savedGoals = localStorage.getItem('myPersonalGoals');
             if (savedGoals) {
-                let loadedGoals = JSON.parse(savedGoals);
-                // Migration: Map old fixed timeframes to new names
-                loadedGoals = loadedGoals.map(g => {
-                    if (g.timeframe === 'short') g.timeframe = 'Short Term';
-                    if (g.timeframe === 'mid') g.timeframe = 'Mid Term';
-                    if (g.timeframe === 'long') g.timeframe = 'Long Term';
-                    return g;
-                });
-                goals = loadedGoals;
+                goals = JSON.parse(savedGoals);
             }
 
             setGrouping(currentGrouping, true);
@@ -568,7 +663,6 @@
             currentGrouping = type;
             localStorage.setItem('myGrouping', type);
             
-            // Update UI buttons
             document.getElementById('btnGroupTime').className = type === 'timeframe' ? 'view-btn active' : 'view-btn';
             document.getElementById('btnGroupCat').className = type === 'category' ? 'view-btn active' : 'view-btn';
 
@@ -624,7 +718,7 @@
         }
 
         function renderManagers() {
-            // Render Category Pills
+            // Render Category Pills & Options
             const catContainer = document.getElementById('catPills');
             catContainer.innerHTML = '';
             const catSelect = document.getElementById('categorySelect');
@@ -645,7 +739,7 @@
                 catSelect.appendChild(option);
             });
 
-            // Render Timeframe Pills
+            // Render Timeframe Pills & Options
             const tfContainer = document.getElementById('tfPills');
             tfContainer.innerHTML = '';
             const tfSelect = document.getElementById('timeframeSelect');
@@ -728,17 +822,13 @@
             const dashboard = document.getElementById('mainDashboard');
             dashboard.innerHTML = '';
             
-            // Determine our grouping array and key
             const groups = currentGrouping === 'timeframe' ? timeframes : categories;
             const groupKey = currentGrouping === 'timeframe' ? 'timeframe' : 'category';
             const todayStr = new Date().toISOString().split('T')[0];
 
-            // Render each dynamic section
             groups.forEach(group => {
-                // Filter goals that match this group
                 const sectionGoals = goals.filter(g => g[groupKey] === group.name);
                 
-                // Create the section HTML wrapper
                 const sectionDiv = document.createElement('div');
                 sectionDiv.className = 'goal-section';
                 
@@ -756,18 +846,15 @@
                         const li = document.createElement('li');
                         li.className = `goal-item ${goal.completed ? 'completed' : ''}`;
                         
-                        // Find the styles for this specific goal
                         const catObj = categories.find(c => c.name === goal.category);
                         const tfObj = timeframes.find(t => t.name === goal.timeframe);
                         
-                        // Apply Dynamic Styles based on the prompt instructions
                         const borderColor = tfObj ? tfObj.color : 'var(--border)';
                         const bgColor = catObj ? hexToRgba(catObj.color, 0.15) : 'var(--bg-color)';
                         
                         li.style.borderColor = borderColor;
                         li.style.backgroundColor = bgColor;
                         
-                        // Build Badges
                         let badgesHtml = '';
                         if (currentGrouping === 'timeframe' && catObj) {
                             badgesHtml += `<span class="badge" style="background:${hexToRgba(catObj.color, 0.2)}; color:${catObj.color}">${catObj.name}</span>`;
@@ -801,7 +888,7 @@
                 dashboard.appendChild(sectionDiv);
             });
 
-            // Catch-all section for "Unassigned" goals
+            // Unassigned goals
             const unassignedGoals = goals.filter(g => !groups.find(group => group.name === g[groupKey]));
             if (unassignedGoals.length > 0) {
                 const sectionDiv = document.createElement('div');
