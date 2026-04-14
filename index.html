@@ -1,192 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0f172a">
+    <title>My Goals</title>
+    <style>
+        :root {
+            /* Dark Mode Palette */
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --primary: #f8fafc;
+            --accent: #3b82f6;
+            --accent-hover: #2563eb;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --success: #10b981;
+            --danger: #ef4444;
+            --danger-bg: rgba(239, 68, 68, 0.15);
+            --blue-bg: rgba(59, 130, 246, 0.15);
+        }
 
-<style>
-  *{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-  :root{
-    --bg:#0f1117;--surface:#1a1d27;--surface2:#22263a;--border:#2e3450;
-    --text:#e8eaf6;--muted:#6b7299;--accent:#7c8fff;--accent2:#a78bfa;
-    --green:#34d399;--red:#f87171;--amber:#fbbf24;
-    --high:#f87171;--med:#fbbf24;--low:#34d399;
-  }
-  body{background:var(--bg);color:var(--text);padding:clamp(12px,3vw,32px);min-height:100vh;display:flex;justify-content:center;align-items:flex-start}
-  .wrap{width:100%;max-width:720px;display:flex;flex-direction:column;gap:14px}
-  h1{font-size:clamp(18px,3vw,24px);font-weight:500;text-align:center;color:var(--text);letter-spacing:.3px;padding:4px 0}
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
 
-  .stats-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
-  .stat{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:clamp(8px,2vw,14px);text-align:center}
-  .stat-num{font-size:clamp(18px,3vw,24px);font-weight:500;color:var(--accent)}
-  .stat-lbl{font-size:11px;color:var(--muted);margin-top:2px}
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            min-height: 100vh;
+        }
 
-  .progress-area{background:var(--surface);border-radius:10px;padding:clamp(10px,2vw,16px);border:1px solid var(--border)}
-  .progress-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
-  .progress-label{font-size:13px;color:var(--muted)}
-  .progress-pct{font-size:14px;font-weight:500;color:var(--accent)}
-  .progress-bar{height:5px;background:var(--surface2);border-radius:99px;overflow:hidden}
-  .progress-fill{height:100%;border-radius:99px;background:var(--accent);transition:width .4s ease}
+        .app-container {
+            background: var(--card-bg);
+            width: 100%;
+            max-width: 550px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
 
-  .input-card{background:var(--surface);border-radius:10px;padding:clamp(10px,2vw,16px);border:1px solid var(--border);display:flex;flex-direction:column;gap:8px}
-  .text-row{display:flex;gap:8px}
-  .text-row input{flex:1;min-width:0;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:9px 12px;font-size:14px;color:var(--text);outline:none;transition:border-color .2s}
-  .text-row input:focus{border-color:var(--accent)}
-  .meta-row{display:flex;gap:8px;flex-wrap:wrap}
-  .meta-row select,.meta-row input[type=date]{flex:1;min-width:120px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:8px 10px;font-size:13px;color:var(--text);outline:none}
-  .meta-row select:focus,.meta-row input[type=date]:focus{border-color:var(--accent)}
-  input[type=date]::-webkit-calendar-picker-indicator{filter:invert(.6)}
-  .add-btn{background:var(--accent);color:#0f1117;border:none;padding:9px 18px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;white-space:nowrap;transition:opacity .2s;flex-shrink:0}
-  .add-btn:hover{opacity:.85}
+        .dashboard-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
 
-  .controls{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
-  .filter-btn{background:transparent;border:1px solid var(--border);border-radius:8px;padding:6px 13px;font-size:13px;color:var(--muted);cursor:pointer;transition:all .2s;white-space:nowrap}
-  .filter-btn.active{background:var(--surface2);border-color:var(--accent);color:var(--accent)}
-  .sort-sel{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:6px 10px;font-size:13px;color:var(--muted);outline:none;margin-left:auto}
+        .dashboard-main {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
 
-  .goal-list{display:flex;flex-direction:column;gap:7px}
-  .goal-item{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:clamp(10px,2vw,14px) clamp(12px,2vw,16px);display:flex;align-items:flex-start;gap:11px;transition:border-color .2s}
-  .goal-item:hover{border-color:#3e4870}
-  .goal-item.completed{opacity:.5}
-  .check{width:20px;height:20px;border:2px solid var(--border);border-radius:5px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;margin-top:1px;transition:all .2s}
-  .goal-item.completed .check{background:var(--green);border-color:var(--green)}
-  .chk{display:none;width:10px;height:10px;border-right:2px solid #0f1117;border-bottom:2px solid #0f1117;transform:rotate(45deg) translate(-1px,-2px)}
-  .goal-item.completed .chk{display:block}
-  .goal-body{flex:1;cursor:pointer;min-width:0}
-  .goal-text{font-size:14px;word-break:break-word;line-height:1.4}
-  .goal-item.completed .goal-text{text-decoration:line-through;color:var(--muted)}
-  .goal-meta{display:flex;gap:6px;align-items:center;margin-top:5px;flex-wrap:wrap}
-  .badge{font-size:11px;padding:2px 8px;border-radius:99px;font-weight:500;white-space:nowrap}
-  .badge-high{background:#3d1f1f;color:var(--high)}
-  .badge-med{background:#3a2f10;color:var(--med)}
-  .badge-low{background:#0f2e20;color:var(--low)}
-  .dtag{font-size:11px;color:var(--muted)}
-  .dtag.overdue{color:var(--red)}
-  .del-btn{background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer;padding:0 4px;border-radius:4px;transition:color .2s;flex-shrink:0;line-height:1}
-  .del-btn:hover{color:var(--red)}
-  .empty{text-align:center;color:var(--muted);padding:28px 0;font-size:14px;font-style:italic}
+        .header-section {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
 
-  @media(min-width:600px){
-    .meta-row{flex-wrap:nowrap}
-    .meta-row select,.meta-row input[type=date]{flex:1}
-  }
-  @media(max-width:400px){
-    .sort-sel{width:100%;margin-left:0;margin-top:4px}
-    .controls{justify-content:flex-start}
-  }
-  ::placeholder{color:var(--muted)}
-</style>
+        h1 {
+            color: var(--primary);
+            font-size: 28px;
+            text-align: left;
+            letter-spacing: -0.5px;
+        }
 
-<h2 style="position:absolute;width:1px;height:1px;overflow:hidden">Goals tracker — dark mode, responsive</h2>
+        .progress-container {
+            width: 100%;
+            background-color: var(--border);
+            border-radius: 10px;
+            height: 10px;
+            overflow: hidden;
+            position: relative;
+        }
 
-<div class="wrap">
-  <h1>My Goals</h1>
+        .progress-bar {
+            height: 100%;
+            background-color: var(--success);
+            width: 0%;
+            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 0 10px var(--success);
+        }
 
-  <div class="stats-row">
-    <div class="stat"><div class="stat-num" id="s-total">0</div><div class="stat-lbl">total</div></div>
-    <div class="stat"><div class="stat-num" id="s-active">0</div><div class="stat-lbl">active</div></div>
-    <div class="stat"><div class="stat-num" id="s-done">0</div><div class="stat-lbl">done</div></div>
-  </div>
+        .progress-text {
+            text-align: right;
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: -8px;
+            font-weight: 600;
+        }
 
-  <div class="progress-area">
-    <div class="progress-header">
-      <span class="progress-label">Overall progress</span>
-      <span class="progress-pct" id="pct-label">0%</span>
-    </div>
-    <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
-  </div>
+        /* View Toggle */
+        .view-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--bg-color);
+            padding: 8px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
 
-  <div class="input-card">
-    <div class="text-row">
-      <input type="text" id="goalInput" placeholder="What do you want to achieve?">
-      <button class="add-btn" id="addBtn">Add</button>
-    </div>
-    <div class="meta-row">
-      <select id="prioritySelect">
-        <option value="med">Medium priority</option>
-        <option value="high">High priority</option>
-        <option value="low">Low priority</option>
-      </select>
-      <input type="date" id="dueDateInput" title="Due date (optional)">
-    </div>
-  </div>
+        .view-controls span {
+            font-size: 13px;
+            color: var(--text-muted);
+            font-weight: 600;
+            padding-left: 8px;
+        }
 
-  <div class="controls">
-    <button class="filter-btn active" data-filter="all">All</button>
-    <button class="filter-btn" data-filter="active">Active</button>
-    <button class="filter-btn" data-filter="completed">Done</button>
-    <select class="sort-sel" id="sortSelect">
-      <option value="added">Newest first</option>
-      <option value="priority">By priority</option>
-      <option value="due">By due date</option>
-    </select>
-  </div>
+        .view-btn {
+            flex: 1;
+            background: transparent;
+            color: var(--text-muted);
+            border: none;
+            padding: 8px 0;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
 
-  <div class="goal-list" id="goalList"></div>
-</div>
+        .view-btn.active {
+            background: var(--card-bg);
+            color: var(--primary);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
 
-<script>
-const KEY='goals-dark-v1';
-let goals=[],filter='all',sortBy='added';
+        /* Manager Styles */
+        .manager-block {
+            background: rgba(15, 23, 42, 0.5);
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
 
-async function load(){
-  try{const r=await window.storage.get(KEY);if(r)goals=JSON.parse(r.value);}catch(e){goals=[];}
-  render();
-}
-async function save(){try{await window.storage.set(KEY,JSON.stringify(goals));}catch(e){}}
+        .manager-block h3 {
+            font-size: 13px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
 
-function addGoal(){
-  const inp=document.getElementById('goalInput');
-  const text=inp.value.trim();
-  if(!text)return;
-  goals.unshift({id:Date.now(),text,priority:document.getElementById('prioritySelect').value,due:document.getElementById('dueDateInput').value||null,completed:false,added:Date.now()});
-  save();render();
-  inp.value='';document.getElementById('dueDateInput').value='';document.getElementById('prioritySelect').value='med';
-}
-function toggleGoal(id){goals=goals.map(g=>g.id===id?{...g,completed:!g.completed}:g);save();render();}
-function deleteGoal(id){goals=goals.filter(g=>g.id!==id);save();render();}
+        .pills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
 
-const pOrder={high:0,med:1,low:2};
-function render(){
-  let list=[...goals];
-  if(filter==='active')list=list.filter(g=>!g.completed);
-  if(filter==='completed')list=list.filter(g=>g.completed);
-  if(sortBy==='priority')list.sort((a,b)=>pOrder[a.priority]-pOrder[b.priority]);
-  if(sortBy==='due')list.sort((a,b)=>{if(!a.due&&!b.due)return 0;if(!a.due)return 1;if(!b.due)return -1;return new Date(a.due)-new Date(b.due);});
+        .pill {
+            color: var(--text-main);
+            font-size: 12px;
+            padding: 4px 10px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border: 1px solid transparent;
+            font-weight: 600;
+        }
 
-  const el=document.getElementById('goalList');
-  if(!list.length){el.innerHTML='<div class="empty">No goals here yet.</div>';
-  }else{
-    el.innerHTML=list.map(g=>{
-      const bl={high:'badge-high',med:'badge-med',low:'badge-low'}[g.priority];
-      const bl2={high:'High',med:'Medium',low:'Low'}[g.priority];
-      let dh='';
-      if(g.due){
-        const today=new Date().toISOString().split('T')[0];
-        const ov=!g.completed&&g.due<today;
-        const fmt=new Date(g.due+'T00:00:00').toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric'});
-        dh=`<span class="dtag ${ov?'overdue':''}">${fmt}${ov?' — overdue':''}</span>`;
-      }
-      return`<div class="goal-item ${g.completed?'completed':''}">
-        <div class="check" onclick="toggleGoal(${g.id})"><div class="chk"></div></div>
-        <div class="goal-body" onclick="toggleGoal(${g.id})">
-          <div class="goal-text">${g.text}</div>
-          <div class="goal-meta"><span class="badge ${bl}">${bl2}</span>${dh}</div>
+        .pill span {
+            cursor: pointer;
+            color: var(--text-main);
+            opacity: 0.5;
+            font-weight: bold;
+        }
+
+        .pill span:hover {
+            opacity: 1;
+            color: var(--danger);
+        }
+
+        /* Controls */
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        input[type="text"], input[type="date"], select {
+            width: 100%;
+            padding: 14px 16px;
+            background-color: var(--bg-color);
+            border: 2px solid var(--border);
+            color: var(--text-main);
+            border-radius: 12px;
+            font-size: 15px;
+            outline: none;
+            transition: all 0.2s;
+            color-scheme: dark; 
+        }
+
+        input[type="text"]:focus, input[type="date"]:focus, select:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        }
+
+        input[type="color"] {
+            -webkit-appearance: none;
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            cursor: pointer;
+            background: none;
+            padding: 0;
+        }
+        input[type="color"]::-webkit-color-swatch-wrapper { padding: 0; }
+        input[type="color"]::-webkit-color-swatch { border: 2px solid var(--border); border-radius: 10px; }
+
+        .input-row {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        button.btn {
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        button.btn:hover {
+            background-color: var(--accent-hover);
+            transform: translateY(-1px);
+        }
+
+        button.btn.small {
+            padding: 12px 20px;
+            font-size: 14px;
+            width: auto;
+        }
+
+        /* Sections and Lists */
+        .goal-section {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .goal-section h2 {
+            font-size: 18px;
+            color: var(--text-main);
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 8px;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .color-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .goal-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .goal-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px;
+            border-radius: 12px;
+            transition: all 0.2s;
+            border: 2px solid var(--border); /* Default fallback */
+            background-color: var(--bg-color); /* Default fallback */
+        }
+
+        .goal-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .goal-content {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            cursor: pointer;
+            flex: 1;
+        }
+
+        .checkbox {
+            width: 22px;
+            height: 22px;
+            border: 2px solid var(--text-muted);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.2s;
+            background: rgba(15, 23, 42, 0.5);
+        }
+
+        .goal-item.completed .checkbox {
+            background-color: var(--success);
+            border-color: var(--success);
+        }
+
+        .goal-item.completed .checkbox::after {
+            content: "✓";
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .text-container {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .goal-text {
+            font-size: 16px;
+            transition: color 0.2s;
+            line-height: 1.4;
+            font-weight: 500;
+        }
+
+        .goal-item.completed .goal-text {
+            color: var(--text-muted);
+            text-decoration: line-through;
+            opacity: 0.6;
+        }
+
+        /* Badges */
+        .meta-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            font-size: 11px;
+            padding: 4px 8px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            width: fit-content;
+        }
+
+        .date-badge {
+            font-size: 11px;
+            padding: 4px 8px;
+            border-radius: 8px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            border: 1px solid transparent;
+        }
+
+        .date-badge.valid {
+            background: var(--blue-bg);
+            color: #60a5fa;
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+
+        .date-badge.overdue {
+            background: var(--danger-bg);
+            color: #f87171;
+            border-color: rgba(239, 68, 68, 0.3);
+        }
+
+        .goal-item.completed .badge,
+        .goal-item.completed .date-badge {
+            opacity: 0.5;
+        }
+
+        .delete-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 22px;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        .delete-btn:hover {
+            color: var(--danger);
+            background: rgba(239, 68, 68, 0.1);
+        }
+
+        .empty-state {
+            color: var(--text-muted);
+            padding: 20px 0;
+            font-style: italic;
+            font-size: 14px;
+            text-align: center;
+            opacity: 0.7;
+        }
+
+        /* --- DESKTOP LAYOUT --- */
+        @media (min-width: 900px) {
+            body { padding: 40px; align-items: flex-start; }
+            .app-container {
+                max-width: 1000px; 
+                flex-direction: row; 
+                align-items: flex-start;
+                gap: 50px;
+                padding: 40px;
+            }
+            .dashboard-sidebar { flex: 0 0 340px; position: sticky; top: 40px; }
+            .dashboard-main { flex: 1; min-width: 0; }
+            h1 { font-size: 32px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        
+        <div class="dashboard-sidebar">
+            <div class="header-section">
+                <h1>Dashboard</h1>
+                <div class="progress-container">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+                <div class="progress-text" id="progressText">0% Completed</div>
+            </div>
+
+            <div class="view-controls">
+                <span>Group By:</span>
+                <button class="view-btn active" id="btnGroupTime" onclick="setGrouping('timeframe')">Timeframe</button>
+                <button class="view-btn" id="btnGroupCat" onclick="setGrouping('category')">Category</button>
+            </div>
+
+            <div class="manager-block">
+                <h3>Manage Timeframes (Border Color)</h3>
+                <div class="input-row">
+                    <input type="text" id="newTfInput" placeholder="e.g. Q3, Someday..." style="padding: 10px; font-size: 14px;">
+                    <input type="color" id="newTfColor" value="#3b82f6">
+                    <button class="btn small" onclick="addTimeframe()">Add</button>
+                </div>
+                <div id="tfPills" class="pills-container"></div>
+            </div>
+
+            <div class="manager-block">
+                <h3>Manage Categories (Background Color)</h3>
+                <div class="input-row">
+                    <input type="text" id="newCatInput" placeholder="e.g. Finance, Health..." style="padding: 10px; font-size: 14px;">
+                    <input type="color" id="newCatColor" value="#10b981">
+                    <button class="btn small" onclick="addCategory()">Add</button>
+                </div>
+                <div id="catPills" class="pills-container"></div>
+            </div>
+            
+            <div class="controls">
+                <input type="text" id="goalInput" placeholder="Define your next objective...">
+                <div class="input-row">
+                    <input type="date" id="goalDate" title="Target Completion Date">
+                </div>
+                <div class="input-row">
+                    <select id="timeframeSelect"></select>
+                    <select id="categorySelect"></select>
+                </div>
+                <button class="btn" onclick="addGoal()">Add Target</button>
+            </div>
         </div>
-        <button class="del-btn" onclick="deleteGoal(${g.id})">&#x00D7;</button>
-      </div>`;
-    }).join('');
-  }
 
-  const total=goals.length,done=goals.filter(g=>g.completed).length,pct=total?Math.round(done/total*100):0;
-  document.getElementById('s-total').textContent=total;
-  document.getElementById('s-active').textContent=total-done;
-  document.getElementById('s-done').textContent=done;
-  document.getElementById('pct-label').textContent=pct+'%';
-  document.getElementById('prog-fill').style.width=pct+'%';
-}
+        <div class="dashboard-main" id="mainDashboard">
+            </div>
 
-document.getElementById('addBtn').onclick=addGoal;
-document.getElementById('goalInput').addEventListener('keypress',e=>{if(e.key==='Enter')addGoal();});
-document.querySelectorAll('.filter-btn').forEach(btn=>{
-  btn.onclick=()=>{filter=btn.dataset.filter;document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');render();};
-});
-document.getElementById('sortSelect').onchange=e=>{sortBy=e.target.value;render();};
+    </div>
 
-load();
-</script>
+    <script>
+        // State variables
+        let goals = [];
+        let categories = [];
+        let timeframes = [];
+        let currentGrouping = 'timeframe'; // 'timeframe' or 'category'
+
+        // Helper function to convert Hex color to RGBA for smooth backgrounds
+        function hexToRgba(hex, alpha) {
+            // Strip the hash if present
+            hex = hex.replace(/^#/, '');
+            if (hex.length === 3) {
+                hex = hex[0]+hex[0]+hex[1]+hex[1]+hex[2]+hex[2];
+            }
+            const r = parseInt(hex.substring(0, 2), 16);
+            const g = parseInt(hex.substring(2, 4), 16);
+            const b = parseInt(hex.substring(4, 6), 16);
+            return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+        }
+
+        function initApp() {
+            // Load custom settings
+            const savedCats = localStorage.getItem('myCategoriesObj');
+            const savedTfs = localStorage.getItem('myTimeframesObj');
+            const savedGroup = localStorage.getItem('myGrouping');
+            
+            if (savedGroup) currentGrouping = savedGroup;
+
+            if (savedCats) {
+                categories = JSON.parse(savedCats);
+            } else {
+                categories = [{ name: 'General', color: '#64748b' }];
+            }
+
+            if (savedTfs) {
+                timeframes = JSON.parse(savedTfs);
+            } else {
+                timeframes = [
+                    { name: 'Short Term', color: '#ef4444' },
+                    { name: 'Mid Term', color: '#f59e0b' },
+                    { name: 'Long Term', color: '#3b82f6' }
+                ];
+            }
+
+            // Load goals and migrate legacy string data to objects if necessary
+            const savedGoals = localStorage.getItem('myPersonalGoals');
+            if (savedGoals) {
+                let loadedGoals = JSON.parse(savedGoals);
+                // Migration: Map old fixed timeframes to new names
+                loadedGoals = loadedGoals.map(g => {
+                    if (g.timeframe === 'short') g.timeframe = 'Short Term';
+                    if (g.timeframe === 'mid') g.timeframe = 'Mid Term';
+                    if (g.timeframe === 'long') g.timeframe = 'Long Term';
+                    return g;
+                });
+                goals = loadedGoals;
+            }
+
+            setGrouping(currentGrouping, true);
+            renderManagers();
+            updateProgress();
+        }
+
+        // --- CORE SETTINGS LOGIC ---
+        function setGrouping(type, initialLoad = false) {
+            currentGrouping = type;
+            localStorage.setItem('myGrouping', type);
+            
+            // Update UI buttons
+            document.getElementById('btnGroupTime').className = type === 'timeframe' ? 'view-btn active' : 'view-btn';
+            document.getElementById('btnGroupCat').className = type === 'category' ? 'view-btn active' : 'view-btn';
+
+            if (!initialLoad) renderDashboard();
+        }
+
+        function saveData() {
+            localStorage.setItem('myCategoriesObj', JSON.stringify(categories));
+            localStorage.setItem('myTimeframesObj', JSON.stringify(timeframes));
+            localStorage.setItem('myPersonalGoals', JSON.stringify(goals));
+            updateProgress();
+        }
+
+        // --- MANAGERS ---
+        function addCategory() {
+            const input = document.getElementById('newCatInput');
+            const colorInput = document.getElementById('newCatColor');
+            const name = input.value.trim();
+            if (name !== '' && !categories.find(c => c.name === name)) {
+                categories.push({ name: name, color: colorInput.value });
+                saveData();
+                renderManagers();
+                renderDashboard();
+                input.value = '';
+            }
+        }
+
+        function deleteCategory(name) {
+            categories = categories.filter(c => c.name !== name);
+            saveData();
+            renderManagers();
+            renderDashboard();
+        }
+
+        function addTimeframe() {
+            const input = document.getElementById('newTfInput');
+            const colorInput = document.getElementById('newTfColor');
+            const name = input.value.trim();
+            if (name !== '' && !timeframes.find(t => t.name === name)) {
+                timeframes.push({ name: name, color: colorInput.value });
+                saveData();
+                renderManagers();
+                renderDashboard();
+                input.value = '';
+            }
+        }
+
+        function deleteTimeframe(name) {
+            timeframes = timeframes.filter(t => t.name !== name);
+            saveData();
+            renderManagers();
+            renderDashboard();
+        }
+
+        function renderManagers() {
+            // Render Category Pills
+            const catContainer = document.getElementById('catPills');
+            catContainer.innerHTML = '';
+            const catSelect = document.getElementById('categorySelect');
+            catSelect.innerHTML = '<option value="">No Category</option>';
+            
+            categories.forEach(cat => {
+                const pill = document.createElement('div');
+                pill.className = 'pill';
+                pill.style.backgroundColor = hexToRgba(cat.color, 0.2);
+                pill.style.border = `1px solid ${hexToRgba(cat.color, 0.5)}`;
+                pill.style.color = cat.color;
+                pill.innerHTML = `${cat.name} <span onclick="deleteCategory('${cat.name}')">×</span>`;
+                catContainer.appendChild(pill);
+
+                const option = document.createElement('option');
+                option.value = cat.name;
+                option.innerText = cat.name;
+                catSelect.appendChild(option);
+            });
+
+            // Render Timeframe Pills
+            const tfContainer = document.getElementById('tfPills');
+            tfContainer.innerHTML = '';
+            const tfSelect = document.getElementById('timeframeSelect');
+            tfSelect.innerHTML = '<option value="">No Timeframe</option>';
+
+            timeframes.forEach(tf => {
+                const pill = document.createElement('div');
+                pill.className = 'pill';
+                pill.style.backgroundColor = hexToRgba(tf.color, 0.1);
+                pill.style.border = `1px solid ${tf.color}`;
+                pill.style.color = tf.color;
+                pill.innerHTML = `${tf.name} <span onclick="deleteTimeframe('${tf.name}')">×</span>`;
+                tfContainer.appendChild(pill);
+
+                const option = document.createElement('option');
+                option.value = tf.name;
+                option.innerText = tf.name;
+                tfSelect.appendChild(option);
+            });
+        }
+
+        // --- GOAL LOGIC ---
+        function updateProgress() {
+            const progressBar = document.getElementById('progressBar');
+            const progressText = document.getElementById('progressText');
+            if (goals.length === 0) {
+                progressBar.style.width = '0%';
+                progressText.innerText = '0% Completed';
+                return;
+            }
+            const completedGoals = goals.filter(g => g.completed).length;
+            const percentage = Math.round((completedGoals / goals.length) * 100);
+            progressBar.style.width = `${percentage}%`;
+            progressText.innerText = `${percentage}% Completed`;
+        }
+
+        function addGoal() {
+            const input = document.getElementById('goalInput');
+            const catSelect = document.getElementById('categorySelect');
+            const tfSelect = document.getElementById('timeframeSelect');
+            const dateInput = document.getElementById('goalDate');
+            
+            const text = input.value.trim();
+            if (text !== '') {
+                const newGoal = {
+                    id: Date.now(),
+                    text: text,
+                    category: catSelect.value || null,
+                    timeframe: tfSelect.value || null,
+                    dueDate: dateInput.value,
+                    completed: false
+                };
+                
+                goals.unshift(newGoal);
+                saveData();
+                renderDashboard();
+                
+                input.value = ''; 
+                dateInput.value = '';
+            }
+        }
+
+        function toggleGoal(id) {
+            goals = goals.map(goal => {
+                if (goal.id === id) return { ...goal, completed: !goal.completed };
+                return goal;
+            });
+            saveData();
+            renderDashboard();
+        }
+
+        function deleteGoal(id) {
+            goals = goals.filter(goal => goal.id !== id);
+            saveData();
+            renderDashboard();
+        }
+
+        // --- DYNAMIC DASHBOARD RENDERING ---
+        function renderDashboard() {
+            const dashboard = document.getElementById('mainDashboard');
+            dashboard.innerHTML = '';
+            
+            // Determine our grouping array and key
+            const groups = currentGrouping === 'timeframe' ? timeframes : categories;
+            const groupKey = currentGrouping === 'timeframe' ? 'timeframe' : 'category';
+            const todayStr = new Date().toISOString().split('T')[0];
+
+            // Render each dynamic section
+            groups.forEach(group => {
+                // Filter goals that match this group
+                const sectionGoals = goals.filter(g => g[groupKey] === group.name);
+                
+                // Create the section HTML wrapper
+                const sectionDiv = document.createElement('div');
+                sectionDiv.className = 'goal-section';
+                
+                const heading = document.createElement('h2');
+                heading.innerHTML = `<span class="color-dot" style="background-color: ${group.color}"></span> ${group.name}`;
+                sectionDiv.appendChild(heading);
+
+                const ul = document.createElement('ul');
+                ul.className = 'goal-list';
+
+                if (sectionGoals.length === 0) {
+                    ul.innerHTML = `<div class="empty-state">No targets mapped to ${group.name}.</div>`;
+                } else {
+                    sectionGoals.forEach(goal => {
+                        const li = document.createElement('li');
+                        li.className = `goal-item ${goal.completed ? 'completed' : ''}`;
+                        
+                        // Find the styles for this specific goal
+                        const catObj = categories.find(c => c.name === goal.category);
+                        const tfObj = timeframes.find(t => t.name === goal.timeframe);
+                        
+                        // Apply Dynamic Styles based on the prompt instructions
+                        const borderColor = tfObj ? tfObj.color : 'var(--border)';
+                        const bgColor = catObj ? hexToRgba(catObj.color, 0.15) : 'var(--bg-color)';
+                        
+                        li.style.borderColor = borderColor;
+                        li.style.backgroundColor = bgColor;
+                        
+                        // Build Badges
+                        let badgesHtml = '';
+                        if (currentGrouping === 'timeframe' && catObj) {
+                            badgesHtml += `<span class="badge" style="background:${hexToRgba(catObj.color, 0.2)}; color:${catObj.color}">${catObj.name}</span>`;
+                        } else if (currentGrouping === 'category' && tfObj) {
+                            badgesHtml += `<span class="badge" style="background:${hexToRgba(tfObj.color, 0.2)}; color:${tfObj.color}">${tfObj.name}</span>`;
+                        }
+
+                        if (goal.dueDate) {
+                            const isOverdue = goal.dueDate < todayStr;
+                            const dateClass = isOverdue ? 'overdue' : 'valid';
+                            const icon = isOverdue ? '⚠️' : '🎯';
+                            const dateObj = new Date(goal.dueDate + 'T12:00:00');
+                            const prettyDate = dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                            badgesHtml += `<span class="date-badge ${dateClass}">${icon} ${prettyDate}</span>`;
+                        }
+
+                        li.innerHTML = `
+                            <div class="goal-content" onclick="toggleGoal(${goal.id})">
+                                <div class="checkbox"></div>
+                                <div class="text-container">
+                                    <span class="goal-text">${goal.text}</span>
+                                    <div class="meta-tags">${badgesHtml}</div>
+                                </div>
+                            </div>
+                            <button class="delete-btn" onclick="deleteGoal(${goal.id})">×</button>
+                        `;
+                        ul.appendChild(li);
+                    });
+                }
+                sectionDiv.appendChild(ul);
+                dashboard.appendChild(sectionDiv);
+            });
+
+            // Catch-all section for "Unassigned" goals
+            const unassignedGoals = goals.filter(g => !groups.find(group => group.name === g[groupKey]));
+            if (unassignedGoals.length > 0) {
+                const sectionDiv = document.createElement('div');
+                sectionDiv.className = 'goal-section';
+                sectionDiv.innerHTML = `<h2><span class="color-dot" style="background-color: var(--text-muted)"></span> Unassigned</h2>`;
+                const ul = document.createElement('ul');
+                ul.className = 'goal-list';
+                
+                unassignedGoals.forEach(goal => {
+                    const li = document.createElement('li');
+                    li.className = `goal-item ${goal.completed ? 'completed' : ''}`;
+                    li.innerHTML = `
+                        <div class="goal-content" onclick="toggleGoal(${goal.id})">
+                            <div class="checkbox"></div>
+                            <span class="goal-text">${goal.text}</span>
+                        </div>
+                        <button class="delete-btn" onclick="deleteGoal(${goal.id})">×</button>
+                    `;
+                    ul.appendChild(li);
+                });
+                sectionDiv.appendChild(ul);
+                dashboard.appendChild(sectionDiv);
+            }
+        }
+
+        // Boot
+        initApp();
+    </script>
+</body>
+</html>
