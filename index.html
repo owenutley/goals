@@ -1,0 +1,222 @@
+
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+  :root{
+    --bg:#0f1117;--surface:#1a1d27;--surface2:#22263a;--border:#2e3450;
+    --text:#e8eaf6;--muted:#6b7299;--accent:#7c8fff;--accent2:#a78bfa;
+    --green:#34d399;--red:#f87171;--amber:#fbbf24;--blue:#60a5fa;
+    --high:#f87171;--med:#fbbf24;--low:#34d399;
+  }
+  body{background:var(--bg);color:var(--text);padding:20px;min-height:100vh;display:flex;justify-content:center}
+  .wrap{width:100%;max-width:520px;display:flex;flex-direction:column;gap:16px}
+  h1{font-size:22px;font-weight:500;text-align:center;color:var(--text);letter-spacing:.5px}
+  .progress-area{background:var(--surface);border-radius:12px;padding:16px;border:1px solid var(--border)}
+  .progress-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+  .progress-label{font-size:13px;color:var(--muted)}
+  .progress-pct{font-size:15px;font-weight:500;color:var(--accent)}
+  .progress-bar{height:6px;background:var(--surface2);border-radius:99px;overflow:hidden}
+  .progress-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .4s ease}
+  .input-card{background:var(--surface);border-radius:12px;padding:16px;border:1px solid var(--border);display:flex;flex-direction:column;gap:10px}
+  .input-row{display:flex;gap:8px}
+  .input-row input[type=text]{flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:14px;color:var(--text);outline:none;transition:border-color .2s}
+  .input-row input[type=text]:focus{border-color:var(--accent)}
+  .meta-row{display:flex;gap:8px;align-items:center}
+  select,input[type=date]{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:8px 10px;font-size:13px;color:var(--text);outline:none;cursor:pointer}
+  select:focus,input[type=date]:focus{border-color:var(--accent)}
+  input[type=date]::-webkit-calendar-picker-indicator{filter:invert(0.6)}
+  .add-btn{background:var(--accent);color:#0f1117;border:none;padding:10px 18px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;white-space:nowrap;transition:opacity .2s}
+  .add-btn:hover{opacity:.85}
+  .controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  .filter-btn{background:transparent;border:1px solid var(--border);border-radius:8px;padding:6px 14px;font-size:13px;color:var(--muted);cursor:pointer;transition:all .2s}
+  .filter-btn.active{background:var(--surface2);border-color:var(--accent);color:var(--accent)}
+  .sort-select{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:6px 10px;font-size:13px;color:var(--muted);outline:none;margin-left:auto}
+  .goal-list{display:flex;flex-direction:column;gap:8px}
+  .goal-item{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 16px;display:flex;align-items:flex-start;gap:12px;transition:border-color .2s;position:relative}
+  .goal-item:hover{border-color:#3e4870}
+  .goal-item.completed{opacity:.55}
+  .check{width:20px;height:20px;border:2px solid var(--border);border-radius:5px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;margin-top:1px;transition:all .2s}
+  .goal-item.completed .check{background:var(--green);border-color:var(--green)}
+  .check-mark{display:none;width:10px;height:10px;border-right:2px solid #0f1117;border-bottom:2px solid #0f1117;transform:rotate(45deg) translate(-1px,-2px)}
+  .goal-item.completed .check-mark{display:block}
+  .goal-body{flex:1;cursor:pointer;min-width:0}
+  .goal-text{font-size:14px;word-break:break-word;transition:color .2s}
+  .goal-item.completed .goal-text{text-decoration:line-through;color:var(--muted)}
+  .goal-meta{display:flex;gap:6px;align-items:center;margin-top:6px;flex-wrap:wrap}
+  .badge{font-size:11px;padding:2px 8px;border-radius:99px;font-weight:500}
+  .badge-high{background:#3d1f1f;color:var(--high)}
+  .badge-med{background:#3a2f10;color:var(--med)}
+  .badge-low{background:#0f2e20;color:var(--low)}
+  .date-tag{font-size:11px;color:var(--muted);display:flex;align-items:center;gap:3px}
+  .date-tag.overdue{color:var(--red)}
+  .del-btn{background:none;border:none;color:var(--muted);font-size:18px;cursor:pointer;padding:0 4px;border-radius:4px;transition:color .2s;flex-shrink:0}
+  .del-btn:hover{color:var(--red)}
+  .empty{text-align:center;color:var(--muted);padding:30px 0;font-size:14px;font-style:italic}
+  .stats-row{display:flex;gap:8px}
+  .stat{flex:1;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center}
+  .stat-num{font-size:22px;font-weight:500;color:var(--accent)}
+  .stat-lbl{font-size:11px;color:var(--muted);margin-top:2px}
+  ::placeholder{color:var(--muted)}
+</style>
+
+<h2 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden">Goals tracker with priority, due dates, filters and progress</h2>
+
+<div class="wrap">
+  <h1>My Goals</h1>
+
+  <div class="stats-row">
+    <div class="stat"><div class="stat-num" id="s-total">0</div><div class="stat-lbl">total</div></div>
+    <div class="stat"><div class="stat-num" id="s-active">0</div><div class="stat-lbl">active</div></div>
+    <div class="stat"><div class="stat-num" id="s-done">0</div><div class="stat-lbl">completed</div></div>
+  </div>
+
+  <div class="progress-area">
+    <div class="progress-header">
+      <span class="progress-label">Overall progress</span>
+      <span class="progress-pct" id="pct-label">0%</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
+  </div>
+
+  <div class="input-card">
+    <div class="input-row">
+      <input type="text" id="goalInput" placeholder="What do you want to achieve?">
+    </div>
+    <div class="meta-row">
+      <select id="prioritySelect">
+        <option value="med">Medium priority</option>
+        <option value="high">High priority</option>
+        <option value="low">Low priority</option>
+      </select>
+      <input type="date" id="dueDateInput" title="Due date (optional)">
+      <button class="add-btn" id="addBtn">Add</button>
+    </div>
+  </div>
+
+  <div class="controls">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="active">Active</button>
+    <button class="filter-btn" data-filter="completed">Done</button>
+    <select class="sort-select" id="sortSelect">
+      <option value="added">Sort: newest</option>
+      <option value="priority">Sort: priority</option>
+      <option value="due">Sort: due date</option>
+    </select>
+  </div>
+
+  <div class="goal-list" id="goalList"></div>
+</div>
+
+<script>
+const STORE_KEY = 'goals-dark-v1';
+let goals = [];
+let filter = 'all';
+let sortBy = 'added';
+
+async function load() {
+  try {
+    const r = await window.storage.get(STORE_KEY);
+    if (r) goals = JSON.parse(r.value);
+  } catch(e) { goals = []; }
+  render();
+}
+
+async function save() {
+  try { await window.storage.set(STORE_KEY, JSON.stringify(goals)); } catch(e){}
+}
+
+function addGoal() {
+  const input = document.getElementById('goalInput');
+  const text = input.value.trim();
+  if (!text) return;
+  goals.unshift({
+    id: Date.now(),
+    text,
+    priority: document.getElementById('prioritySelect').value,
+    due: document.getElementById('dueDateInput').value || null,
+    completed: false,
+    added: Date.now()
+  });
+  save(); render();
+  input.value = '';
+  document.getElementById('dueDateInput').value = '';
+  document.getElementById('prioritySelect').value = 'med';
+}
+
+function toggleGoal(id) {
+  goals = goals.map(g => g.id === id ? {...g, completed: !g.completed} : g);
+  save(); render();
+}
+
+function deleteGoal(id) {
+  goals = goals.filter(g => g.id !== id);
+  save(); render();
+}
+
+const priorityOrder = {high:0, med:1, low:2};
+
+function render() {
+  let list = [...goals];
+  if (filter === 'active') list = list.filter(g => !g.completed);
+  if (filter === 'completed') list = list.filter(g => g.completed);
+
+  if (sortBy === 'priority') list.sort((a,b) => priorityOrder[a.priority] - priorityOrder[b.priority]);
+  if (sortBy === 'due') list.sort((a,b) => {
+    if (!a.due && !b.due) return 0;
+    if (!a.due) return 1;
+    if (!b.due) return -1;
+    return new Date(a.due) - new Date(b.due);
+  });
+
+  const el = document.getElementById('goalList');
+  if (list.length === 0) {
+    el.innerHTML = '<div class="empty">No goals here yet.</div>';
+  } else {
+    el.innerHTML = list.map(g => {
+      const badgeClass = `badge badge-${g.priority}`;
+      const badgeLabel = g.priority === 'high' ? 'High' : g.priority === 'med' ? 'Medium' : 'Low';
+      let dateHtml = '';
+      if (g.due) {
+        const today = new Date().toISOString().split('T')[0];
+        const overdue = !g.completed && g.due < today;
+        const fmt = new Date(g.due + 'T00:00:00').toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric'});
+        dateHtml = `<span class="date-tag ${overdue ? 'overdue' : ''}">&#x25CB; ${fmt}${overdue ? ' — overdue' : ''}</span>`;
+      }
+      return `<div class="goal-item ${g.completed ? 'completed' : ''}">
+        <div class="check" onclick="toggleGoal(${g.id})"><div class="check-mark"></div></div>
+        <div class="goal-body" onclick="toggleGoal(${g.id})">
+          <div class="goal-text">${g.text}</div>
+          <div class="goal-meta">
+            <span class="${badgeClass}">${badgeLabel}</span>
+            ${dateHtml}
+          </div>
+        </div>
+        <button class="del-btn" onclick="deleteGoal(${g.id})">&#x00D7;</button>
+      </div>`;
+    }).join('');
+  }
+
+  const total = goals.length;
+  const done = goals.filter(g => g.completed).length;
+  const active = total - done;
+  const pct = total ? Math.round((done / total) * 100) : 0;
+  document.getElementById('s-total').textContent = total;
+  document.getElementById('s-active').textContent = active;
+  document.getElementById('s-done').textContent = done;
+  document.getElementById('pct-label').textContent = pct + '%';
+  document.getElementById('prog-fill').style.width = pct + '%';
+}
+
+document.getElementById('addBtn').onclick = addGoal;
+document.getElementById('goalInput').addEventListener('keypress', e => { if (e.key === 'Enter') addGoal(); });
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.onclick = () => {
+    filter = btn.dataset.filter;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    render();
+  };
+});
+document.getElementById('sortSelect').onchange = e => { sortBy = e.target.value; render(); };
+
+load();
+</script>
