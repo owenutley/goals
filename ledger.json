@@ -1,0 +1,46 @@
+{
+  "goals": [],
+  "books": [],
+  "journalEntries": [
+    {
+      "id": "u02k4pyhm",
+      "date": "2026-04-20T20:18:10.277Z",
+      "title": "Welcome to the jungle",
+      "content": "HHHHAHAAAAAA?"
+    },
+    {
+      "id": "tipm6cl2c",
+      "date": "2026-04-20T20:01:19.870Z",
+      "title": "New Entry",
+      "content": "My first entry!"
+    }
+  ],
+  "categories": [
+    {
+      "name": "Personal",
+      "color": "#6B705C"
+    },
+    {
+      "name": "Work",
+      "color": "#D4A373"
+    },
+    {
+      "name": "Health",
+      "color": "#A5A58D"
+    }
+  ],
+  "timeframes": [
+    {
+      "name": "Immediate",
+      "color": "#D4A373"
+    },
+    {
+      "name": "This Month",
+      "color": "#A5A58D"
+    },
+    {
+      "name": "Future",
+      "color": "#B7B7A4"
+    }
+  ]
+}
