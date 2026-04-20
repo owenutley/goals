@@ -53,16 +53,16 @@ export default function GoalsSection({ goals, setGoals, categories, timeframes }
       {/* List Area */}
       <div className="col-span-12 lg:col-span-7 space-y-8">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 px-2">
-          <div className="flex bg-natural-soft dark:bg-zinc-800 p-1 rounded-xl">
+          <div className="flex bg-zinc-800 p-1 rounded-xl">
             <button 
               onClick={() => setGroupBy('timeframe')}
-              className={`px-4 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-widest transition-all ${groupBy === 'timeframe' ? 'bg-white dark:bg-zinc-700 shadow-sm text-natural-olive' : 'text-natural-sage'}`}
+              className={`px-4 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-widest transition-all ${groupBy === 'timeframe' ? 'bg-zinc-700 shadow-sm text-natural-olive' : 'text-natural-sage'}`}
             >
               Timeframe
             </button>
             <button 
               onClick={() => setGroupBy('category')}
-              className={`px-4 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-widest transition-all ${groupBy === 'category' ? 'bg-white dark:bg-zinc-700 shadow-sm text-natural-olive' : 'text-natural-sage'}`}
+              className={`px-4 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-widest transition-all ${groupBy === 'category' ? 'bg-zinc-700 shadow-sm text-natural-olive' : 'text-natural-sage'}`}
             >
               Category
             </button>
@@ -80,7 +80,7 @@ export default function GoalsSection({ goals, setGoals, categories, timeframes }
                   <h3 className="font-serif italic text-xl text-natural-olive">
                     {group.name}
                   </h3>
-                  <div className="flex-1 h-[1px] bg-natural-soft dark:bg-zinc-800" />
+                  <div className="flex-1 h-[1px] bg-zinc-800" />
                 </div>
                 
                 <div className="grid grid-cols-1 gap-4">
@@ -106,7 +106,7 @@ export default function GoalsSection({ goals, setGoals, categories, timeframes }
             <div className="space-y-6">
                <div className="flex items-center gap-4">
                   <h3 className="font-serif italic text-xl text-natural-sage">Unassigned</h3>
-                  <div className="flex-1 h-[1px] bg-natural-soft dark:bg-zinc-800" />
+                  <div className="flex-1 h-[1px] bg-zinc-800" />
                 </div>
                 <div className="grid grid-cols-1 gap-4">
                   {goals.filter(g => !groups.find(gr => gr.name === g[groupKey])).map(goal => (
@@ -124,7 +124,7 @@ export default function GoalsSection({ goals, setGoals, categories, timeframes }
           )}
 
           {/* Add Goal Placeholder */}
-          <div className="bg-white/50 dark:bg-zinc-900/50 p-8 rounded-3xl border border-dashed border-natural-beige flex items-center justify-center">
+          <div className="bg-zinc-900/50 p-8 rounded-3xl border border-dashed border-zinc-800 flex items-center justify-center">
             <p className="text-sm font-serif italic text-natural-sage">+ Add a new life priority</p>
           </div>
         </div>
@@ -133,7 +133,7 @@ export default function GoalsSection({ goals, setGoals, categories, timeframes }
       {/* Sidebar Focus Area */}
       <div className="col-span-12 lg:col-span-5 space-y-8">
         {/* Progress Card */}
-        <div className="bg-white dark:bg-zinc-900 p-8 rounded-[2.5rem] shadow-sm border border-natural-soft dark:border-zinc-800">
+        <div className="bg-zinc-900 p-8 rounded-[2.5rem] shadow-sm border border-zinc-800">
            <div className="flex justify-between items-end mb-6">
             <div>
               <p className="text-[10px] font-bold uppercase tracking-widest text-natural-sage mb-1">Total Progress</p>
@@ -143,7 +143,7 @@ export default function GoalsSection({ goals, setGoals, categories, timeframes }
               {completedCount} / {goals.length}
             </p>
           </div>
-          <div className="h-1.5 w-full bg-natural-soft dark:bg-zinc-800 rounded-full overflow-hidden">
+          <div className="h-1.5 w-full bg-zinc-800 rounded-full overflow-hidden">
             <motion.div 
               initial={{ width: 0 }}
               animate={{ width: `${progress}%` }}
@@ -153,7 +153,7 @@ export default function GoalsSection({ goals, setGoals, categories, timeframes }
         </div>
 
         {/* Add Task Area */}
-        <div className="bg-natural-peach/30 dark:bg-zinc-900/30 p-8 rounded-[2.5rem] border border-natural-beige dark:border-zinc-800 space-y-6">
+        <div className="bg-zinc-900/30 p-8 rounded-[2.5rem] border border-zinc-800 space-y-6">
           <h3 className="font-serif text-xl text-natural-sage">New Priority</h3>
           <div className="space-y-4">
             <input 
@@ -161,13 +161,13 @@ export default function GoalsSection({ goals, setGoals, categories, timeframes }
               value={newGoalText}
               onChange={e => setNewGoalText(e.target.value)}
               placeholder="What's next?"
-              className="w-full bg-transparent border-b border-natural-beige dark:border-zinc-800 pb-2 text-sm text-natural-olive placeholder-natural-sage focus:outline-none focus:border-natural-olive transition-all"
+              className="w-full bg-transparent border-b border-zinc-800 pb-2 text-sm text-natural-olive placeholder-natural-sage focus:outline-none focus:border-natural-olive transition-all"
             />
             <div className="grid grid-cols-2 gap-4">
               <select 
                 value={selectedCategory} 
                 onChange={e => setSelectedCategory(e.target.value)}
-                className="bg-white dark:bg-zinc-950 border border-natural-soft dark:border-zinc-800 rounded-xl px-3 py-2 text-[10px] font-bold uppercase tracking-tight text-natural-sage outline-none"
+                className="bg-zinc-950 border border-zinc-800 rounded-xl px-3 py-2 text-[10px] font-bold uppercase tracking-tight text-natural-sage outline-none"
               >
                 <option value="">Category</option>
                 {categories.map(c => <option key={c.name} value={c.name}>{c.name}</option>)}
@@ -175,7 +175,7 @@ export default function GoalsSection({ goals, setGoals, categories, timeframes }
               <select 
                 value={selectedTimeframe} 
                 onChange={e => setSelectedTimeframe(e.target.value)}
-                className="bg-white dark:bg-zinc-950 border border-natural-soft dark:border-zinc-800 rounded-xl px-3 py-2 text-[10px] font-bold uppercase tracking-tight text-natural-sage outline-none"
+                className="bg-zinc-950 border border-zinc-800 rounded-xl px-3 py-2 text-[10px] font-bold uppercase tracking-tight text-natural-sage outline-none"
               >
                 <option value="">Timeframe</option>
                 {timeframes.map(t => <option key={t.name} value={t.name}>{t.name}</option>)}
@@ -185,7 +185,7 @@ export default function GoalsSection({ goals, setGoals, categories, timeframes }
               type="date" 
               value={dueDate}
               onChange={e => setDueDate(e.target.value)}
-              className="w-full bg-white dark:bg-zinc-950 border border-natural-soft dark:border-zinc-800 rounded-xl px-4 py-2 text-[10px] font-bold uppercase tracking-tight text-natural-sage outline-none"
+              className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-2 text-[10px] font-bold uppercase tracking-tight text-natural-sage outline-none"
             />
             <button 
               onClick={addGoal}
@@ -218,8 +218,8 @@ function GoalItem({ goal, onToggle, onRemove, categoryColor, timeframeColor }: G
       exit={{ opacity: 0, scale: 0.95 }}
       className={`group flex items-center gap-5 p-6 rounded-3xl border transition-all ${
         goal.completed 
-        ? 'bg-natural-soft/50 border-natural-soft dark:bg-zinc-900 dark:border-zinc-800' 
-        : 'bg-white dark:bg-zinc-900 border-natural-soft dark:border-zinc-800 shadow-sm hover:shadow-md'
+        ? 'bg-zinc-900 border-zinc-800' 
+        : 'bg-zinc-900 border-zinc-800 shadow-sm hover:shadow-md'
       }`}
     >
       <button 

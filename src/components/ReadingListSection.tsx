@@ -78,8 +78,8 @@ export default function ReadingListSection({ books, setBooks }: ReadingListSecti
             </div>
           </div>
         ) : (
-          <div className="bg-natural-soft p-12 rounded-[2.5rem] border border-dashed border-natural-beige flex flex-col items-center justify-center text-center">
-            <BookOpen size={40} className="text-natural-beige mb-4" />
+          <div className="bg-zinc-900 p-12 rounded-[2.5rem] border border-dashed border-zinc-800 flex flex-col items-center justify-center text-center">
+            <BookOpen size={40} className="text-zinc-700 mb-4" />
             <h3 className="font-serif italic text-xl text-natural-sage">Select a volume to begin.</h3>
           </div>
         )}
@@ -87,13 +87,13 @@ export default function ReadingListSection({ books, setBooks }: ReadingListSecti
         <div className="space-y-6">
           <div className="flex items-center gap-4">
             <h2 className="font-serif text-2xl text-natural-olive">Personal Library</h2>
-            <div className="flex-1 h-[1px] bg-natural-soft dark:bg-zinc-800" />
-            <div className="flex gap-2 p-1 bg-natural-soft dark:bg-zinc-800 rounded-xl">
+            <div className="flex-1 h-[1px] bg-zinc-800" />
+            <div className="flex gap-2 p-1 bg-zinc-800 rounded-xl">
               {['all', 'reading', 'to-read', 'completed'].map(f => (
                 <button
                   key={f}
                   onClick={() => setFilter(f as any)}
-                  className={`px-4 py-1.5 rounded-lg text-[9px] font-bold uppercase tracking-widest transition-all ${filter === f ? 'bg-white dark:bg-zinc-700 shadow-sm text-natural-olive' : 'text-natural-sage'}`}
+                  className={`px-4 py-1.5 rounded-lg text-[9px] font-bold uppercase tracking-widest transition-all ${filter === f ? 'bg-zinc-700 shadow-sm text-natural-olive' : 'text-natural-sage'}`}
                 >
                   {f === 'to-read' ? 'Pending' : f}
                 </button>
@@ -110,10 +110,10 @@ export default function ReadingListSection({ books, setBooks }: ReadingListSecti
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.95 }}
-                  className="group bg-white dark:bg-zinc-900 p-6 rounded-3xl border border-natural-soft dark:border-zinc-800 shadow-sm hover:shadow-md transition-all flex items-start gap-4"
+                  className="group bg-zinc-900 p-6 rounded-3xl border border-zinc-800 shadow-sm hover:shadow-md transition-all flex items-start gap-4"
                 >
                   <div className={`w-12 h-20 rounded-lg flex-shrink-0 flex items-center justify-center border ${
-                    book.status === 'completed' ? 'bg-natural-lime/20 border-natural-lime text-natural-olive' : 'bg-natural-soft border-natural-beige text-natural-sage'
+                    book.status === 'completed' ? 'bg-natural-lime/20 border-natural-lime text-natural-olive' : 'bg-zinc-800 border-zinc-700 text-natural-sage'
                   }`}>
                     <Search size={14} className="opacity-20" />
                   </div>
@@ -141,7 +141,7 @@ export default function ReadingListSection({ books, setBooks }: ReadingListSecti
 
       {/* Add Tool Sidebar */}
       <div className="col-span-12 lg:col-span-4 space-y-6">
-        <div className="bg-white dark:bg-zinc-900 p-8 rounded-[2.5rem] border border-natural-soft dark:border-zinc-800 shadow-sm">
+        <div className="bg-zinc-900 p-8 rounded-[2.5rem] border border-zinc-800 shadow-sm">
           <h2 className="font-serif text-xl mb-6 text-natural-olive">Register Volume</h2>
           <div className="space-y-4">
             <div className="space-y-1">
@@ -150,7 +150,7 @@ export default function ReadingListSection({ books, setBooks }: ReadingListSecti
                 type="text" 
                 value={newBook.title}
                 onChange={e => setNewBook({...newBook, title: e.target.value})}
-                className="w-full bg-natural-soft dark:bg-zinc-950 border-none rounded-2xl px-5 py-3 text-sm focus:ring-1 focus:ring-natural-tan outline-none"
+                className="w-full bg-zinc-950 border-none rounded-2xl px-5 py-3 text-sm focus:ring-1 focus:ring-natural-tan outline-none"
               />
             </div>
             <div className="space-y-1">
@@ -159,7 +159,7 @@ export default function ReadingListSection({ books, setBooks }: ReadingListSecti
                 type="text" 
                 value={newBook.author}
                 onChange={e => setNewBook({...newBook, author: e.target.value})}
-                className="w-full bg-natural-soft dark:bg-zinc-950 border-none rounded-2xl px-5 py-3 text-sm focus:ring-1 focus:ring-natural-tan outline-none"
+                className="w-full bg-zinc-950 border-none rounded-2xl px-5 py-3 text-sm focus:ring-1 focus:ring-natural-tan outline-none"
               />
             </div>
             <button 
@@ -171,7 +171,7 @@ export default function ReadingListSection({ books, setBooks }: ReadingListSecti
           </div>
         </div>
 
-        <div className="bg-natural-peach/20 p-8 rounded-[2.5rem] border border-natural-peach">
+        <div className="bg-zinc-900/40 p-8 rounded-[2.5rem] border border-zinc-800">
            <p className="text-[10px] uppercase font-bold tracking-[0.25em] text-natural-tan mb-2 text-center underline decoration-2 underline-offset-4">Library Stats</p>
            <div className="grid grid-cols-2 gap-4 mt-6">
               <div className="text-center">

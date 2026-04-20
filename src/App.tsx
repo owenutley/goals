@@ -6,8 +6,6 @@ import {
   PenLine, 
   Settings, 
   LayoutDashboard,
-  Moon,
-  Sun,
   Plus,
   CloudUpload,
   CloudCheck
@@ -22,7 +20,6 @@ type Tab = 'dashboard' | 'reading' | 'journal' | 'settings';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<Tab>('dashboard');
-  const [isDarkMode, setIsDarkMode] = useLocalStorage('dark-mode', false);
   const hasLoaded = React.useRef(false);
 
   // States
@@ -91,12 +88,10 @@ export default function App() {
     return () => clearTimeout(timer);
   }, [goals, books, journalEntries, categories, timeframes]);
 
-  const toggleDarkMode = () => setIsDarkMode(!isDarkMode);
-
   return (
-    <div className={`min-h-screen transition-colors duration-300 font-sans ${isDarkMode ? 'dark bg-zinc-950 text-white' : 'bg-natural-bg text-natural-ink'}`}>
+    <div className="min-h-screen transition-colors duration-300 font-sans dark bg-zinc-950 text-white">
       {/* Sidebar / Navigation */}
-      <nav className="fixed bottom-0 left-0 right-0 z-50 p-4 lg:left-0 lg:top-0 lg:bottom-0 lg:w-64 lg:flex-col lg:border-r border-natural-soft dark:border-zinc-800 bg-white dark:bg-zinc-900 lg:justify-between lg:p-8">
+      <nav className="fixed bottom-0 left-0 right-0 z-50 p-4 lg:left-0 lg:top-0 lg:bottom-0 lg:w-64 lg:flex-col lg:border-r border-zinc-800 bg-zinc-900 lg:justify-between lg:p-8">
         <div className="flex justify-around items-center lg:block">
           <div className="hidden lg:block mb-10">
             <div className="flex items-center justify-between">
@@ -138,16 +133,6 @@ export default function App() {
         </div>
         
         <div className="hidden lg:block space-y-6">
-          <div className="bg-natural-soft dark:bg-zinc-800 p-6 rounded-3xl">
-            <p className="text-[10px] uppercase tracking-widest text-natural-sage mb-3 font-bold">Quick Actions</p>
-            <button 
-              onClick={toggleDarkMode}
-              className="w-full text-left py-2 px-3 mb-2 rounded-xl bg-white dark:bg-zinc-950 border border-natural-beige dark:border-zinc-700 text-[10px] font-bold text-natural-olive hover:bg-natural-peach transition-colors uppercase tracking-tight flex items-center gap-2"
-            >
-              {isDarkMode ? <Sun size={14} className="text-yellow-400" /> : <Moon size={14} />}
-              {isDarkMode ? 'Light Mode' : 'Dark Mode'}
-            </button>
-          </div>
         </div>
       </nav>
 
@@ -161,7 +146,7 @@ export default function App() {
             {activeTab === 'settings' && "Preferences"}
           </h2>
           <p className="text-sm text-natural-sage">
-            {activeTab === 'dashboard' && "Focusing on today."}
+            {activeTab === 'dashboard' && "Focusing on what matters today."}
             {activeTab === 'reading' && "Expanding the horizon of thought."}
             {activeTab === 'journal' && "Capturing the essence of the moment."}
             {activeTab === 'settings' && "Calibrating your personal compass."}
@@ -242,7 +227,7 @@ function SettingsTab({ categories, setCategories, timeframes, setTimeframes }: {
 
   return (
     <div className="max-w-3xl mx-auto space-y-8">
-      <section className="bg-white dark:bg-zinc-900 rounded-[2rem] p-10 border border-natural-soft dark:border-zinc-800 shadow-sm">
+      <section className="bg-zinc-900 rounded-[2rem] p-10 border border-zinc-800 shadow-sm">
         <h2 className="text-xl font-serif text-natural-olive italic font-semibold mb-8 flex items-center gap-4">
           <div className="w-1 h-6 bg-natural-sage rounded-full" />
           Taxonomy of Life
@@ -251,21 +236,21 @@ function SettingsTab({ categories, setCategories, timeframes, setTimeframes }: {
         <div className="space-y-10">
           {/* Category Management */}
           <div className="space-y-6">
-            <p className="text-[10px] uppercase tracking-[0.2em] font-black text-natural-sage border-b border-natural-soft pb-2">Categories (Visual Tone)</p>
+            <p className="text-[10px] uppercase tracking-[0.2em] font-black text-natural-sage border-b border-zinc-800 pb-2">Categories (Visual Tone)</p>
             <div className="flex flex-col sm:flex-row gap-4">
               <input 
                 type="text" 
                 value={newCat.name}
                 onChange={e => setNewCat({...newCat, name: e.target.value})}
                 placeholder="Category Name"
-                className="flex-1 bg-natural-soft dark:bg-zinc-950 border border-natural-beige dark:border-zinc-800 rounded-xl px-4 py-3 text-sm focus:ring-1 focus:ring-natural-olive outline-none transition-all"
+                className="flex-1 bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-sm focus:ring-1 focus:ring-natural-olive outline-none transition-all"
               />
               <div className="flex gap-4">
                 <input 
                   type="color" 
                   value={newCat.color}
                   onChange={e => setNewCat({...newCat, color: e.target.value})}
-                  className="w-14 h-14 p-1 bg-white dark:bg-zinc-950 rounded-xl border border-natural-soft dark:border-zinc-800 cursor-pointer"
+                  className="w-14 h-14 p-1 bg-zinc-950 rounded-xl border border-zinc-800 cursor-pointer"
                 />
                 <button 
                   onClick={() => {
@@ -297,21 +282,21 @@ function SettingsTab({ categories, setCategories, timeframes, setTimeframes }: {
 
           {/* Timeframe Management */}
           <div className="space-y-6">
-            <p className="text-[10px] uppercase tracking-[0.2em] font-black text-natural-sage border-b border-natural-soft pb-2">Timeframes (Priority Rhythm)</p>
+            <p className="text-[10px] uppercase tracking-[0.2em] font-black text-natural-sage border-b border-zinc-800 pb-2">Timeframes (Priority Rhythm)</p>
             <div className="flex flex-col sm:flex-row gap-4">
               <input 
                 type="text" 
                 value={newTf.name}
                 onChange={e => setNewTf({...newTf, name: e.target.value})}
                 placeholder="Timeframe Name"
-                className="flex-1 bg-natural-soft dark:bg-zinc-950 border border-natural-beige dark:border-zinc-800 rounded-xl px-4 py-3 text-sm focus:ring-1 focus:ring-natural-olive outline-none transition-all"
+                className="flex-1 bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-sm focus:ring-1 focus:ring-natural-olive outline-none transition-all"
               />
               <div className="flex gap-4">
                 <input 
                   type="color" 
                   value={newTf.color}
                   onChange={e => setNewTf({...newTf, color: e.target.value})}
-                  className="w-14 h-14 p-1 bg-white dark:bg-zinc-950 rounded-xl border border-natural-soft dark:border-zinc-800 cursor-pointer"
+                  className="w-14 h-14 p-1 bg-zinc-950 rounded-xl border border-zinc-800 cursor-pointer"
                 />
                 <button 
                   onClick={() => {

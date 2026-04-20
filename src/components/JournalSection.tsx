@@ -64,15 +64,15 @@ export default function JournalSection({ entries, setEntries }: JournalSectionPr
             placeholder="Search your library of thoughts..."
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
-            className="w-full bg-white dark:bg-zinc-900 border border-natural-soft dark:border-zinc-800 rounded-2xl pl-12 pr-6 py-4 text-sm focus:ring-1 focus:ring-natural-olive outline-none transition-all shadow-sm italic font-serif"
+            className="w-full bg-zinc-900 border border-zinc-800 rounded-2xl pl-12 pr-6 py-4 text-sm focus:ring-1 focus:ring-natural-olive outline-none transition-all shadow-sm italic font-serif"
           />
         </div>
         <div className="flex gap-3 w-full sm:w-auto">
-          <div className="flex bg-natural-soft dark:bg-zinc-800 p-1 rounded-2xl">
-            <button onClick={() => exportEntries('txt')} className="p-3 text-natural-olive hover:bg-white dark:hover:bg-zinc-700 rounded-xl transition-all" title="Export TXT">
+          <div className="flex bg-zinc-800 p-1 rounded-2xl">
+            <button onClick={() => exportEntries('txt')} className="p-3 text-natural-olive hover:bg-zinc-700 rounded-xl transition-all" title="Export TXT">
               <Download size={20} />
             </button>
-            <button onClick={() => exportEntries('json')} className="p-3 text-natural-olive hover:bg-white dark:hover:bg-zinc-700 rounded-xl transition-all font-mono text-[10px] font-bold" title="Export JSON">
+            <button onClick={() => exportEntries('json')} className="p-3 text-natural-olive hover:bg-zinc-700 rounded-xl transition-all font-mono text-[10px] font-bold" title="Export JSON">
               JS
             </button>
           </div>
@@ -95,9 +95,9 @@ export default function JournalSection({ entries, setEntries }: JournalSectionPr
               key={entry.id}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95 }}
+               exit={{ opacity: 0, scale: 0.95 }}
               onClick={() => setViewingEntry(entry)}
-              className="group cursor-pointer bg-white dark:bg-zinc-900 p-8 rounded-[2rem] border border-natural-soft dark:border-zinc-800 hover:border-natural-beige transition-all shadow-sm flex flex-col h-[300px]"
+              className="group cursor-pointer bg-zinc-900 p-8 rounded-[2rem] border border-zinc-800 hover:border-natural-beige transition-all shadow-sm flex flex-col h-[300px]"
             >
               <div className="flex-1 flex flex-col">
                 <div className="flex justify-between items-start mb-6">
@@ -118,7 +118,7 @@ export default function JournalSection({ entries, setEntries }: JournalSectionPr
                   <p className="text-natural-sage text-sm line-clamp-6 leading-relaxed italic font-serif">
                     {entry.content}
                   </p>
-                  <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-white dark:from-zinc-900 to-transparent" />
+                  <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-zinc-900 to-transparent" />
                 </div>
               </div>
               <div className="flex items-center gap-3 text-natural-tan font-bold text-[9px] uppercase tracking-[0.3em] mt-6 group-hover:gap-4 transition-all pb-1 border-b border-transparent group-hover:border-natural-beige w-fit">
@@ -144,12 +144,12 @@ export default function JournalSection({ entries, setEntries }: JournalSectionPr
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="relative w-full max-w-2xl bg-natural-bg dark:bg-zinc-950 rounded-[2.5rem] shadow-2xl overflow-hidden border border-natural-beige dark:border-zinc-800"
+              className="relative w-full max-w-2xl bg-zinc-950 rounded-[2.5rem] shadow-2xl overflow-hidden border border-zinc-800"
             >
               <div className="p-10 space-y-8 h-[80vh] flex flex-col">
                 <div className="flex justify-between items-center">
                   <h2 className="text-xl font-serif text-natural-olive font-semibold">New Reflection</h2>
-                  <button onClick={() => setIsAdding(false)} className="p-3 hover:bg-natural-soft dark:hover:bg-zinc-900 rounded-full transition-colors font-medium">
+                  <button onClick={() => setIsAdding(false)} className="p-3 hover:bg-zinc-900 rounded-full transition-colors font-medium">
                     <X size={20} />
                   </button>
                 </div>
@@ -175,7 +175,7 @@ export default function JournalSection({ entries, setEntries }: JournalSectionPr
                     />
                   </div>
                 </div>
-                <div className="flex justify-end pt-6 border-t border-natural-beige dark:border-zinc-800">
+                <div className="flex justify-end pt-6 border-t border-zinc-800">
                   <button 
                     onClick={addEntry}
                     className="flex items-center gap-3 px-10 py-4 bg-natural-olive text-white rounded-full font-bold text-xs uppercase tracking-widest hover:opacity-90 transition-all active:scale-95 shadow-xl shadow-natural-olive/10"
@@ -205,7 +205,7 @@ export default function JournalSection({ entries, setEntries }: JournalSectionPr
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="relative w-full max-w-2xl bg-white dark:bg-zinc-950 rounded-[2.5rem] shadow-2xl overflow-hidden border border-natural-beige dark:border-zinc-800"
+              className="relative w-full max-w-2xl bg-zinc-950 rounded-[2.5rem] shadow-2xl overflow-hidden border border-zinc-800"
             >
               <div className="p-12 space-y-8 h-[80vh] overflow-y-auto custom-scrollbar">
                 <div className="flex justify-between items-start">
@@ -215,7 +215,7 @@ export default function JournalSection({ entries, setEntries }: JournalSectionPr
                     </p>
                     <h2 className="text-4xl font-serif font-black text-natural-olive leading-tight">{viewingEntry.title}</h2>
                   </div>
-                  <button onClick={() => setViewingEntry(null)} className="p-3 hover:bg-natural-soft dark:hover:bg-zinc-900 rounded-full transition-colors">
+                  <button onClick={() => setViewingEntry(null)} className="p-3 hover:bg-zinc-900 rounded-full transition-colors">
                     <X size={24} />
                   </button>
                 </div>
