@@ -161,7 +161,7 @@ export default function App() {
             {activeTab === 'settings' && "Preferences"}
           </h2>
           <p className="text-sm text-natural-sage">
-            {activeTab === 'dashboard' && "Focusing on what matters today."}
+            {activeTab === 'dashboard' && "Focusing on today."}
             {activeTab === 'reading' && "Expanding the horizon of thought."}
             {activeTab === 'journal' && "Capturing the essence of the moment."}
             {activeTab === 'settings' && "Calibrating your personal compass."}
